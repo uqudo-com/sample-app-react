@@ -16,6 +16,9 @@ Before you begin, ensure you have the following prerequisites in place:
 
     ```sh
     git clone https://github.com/uqudo-com/sample-app-react.git
+    cd UqudoSDKReactNativeSample 
+    npm install
+    cd ios && pod install && cd ..
     ```
 
 2. Open the project in your preferred React Native development environment.
@@ -28,7 +31,7 @@ Before you begin, ensure you have the following prerequisites in place:
 
 ## Running the app
 
-1. Use an emulator or a physical device to run the app.
+1. Use a physical device to run the app.
 
 2. Run the following command in the terminal to build and run the application:
 
