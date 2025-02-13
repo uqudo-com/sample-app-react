@@ -5,12 +5,15 @@ import {
   Button,
   NativeEventEmitter,
   NativeModules,
+  DeviceEventEmitter,
+  Platform,
 } from 'react-native';
 import {
   DocumentBuilder,
   DocumentType,
   EnrollmentBuilder,
   UqudoIdSDK,
+  AppearanceMode,
 } from 'uqudosdk-react-native';
 
 class App extends Component {
@@ -19,10 +22,14 @@ class App extends Component {
     this.sdk = new UqudoIdSDK();
     this.sdk.init();
     this.sdk.setLocale('en');
-    this.eventListener = new NativeEventEmitter(NativeModules.UqudoId).addListener(
-      'TraceEvent',
-      this.handleTraceEvent
-    );
+    if (Platform.OS === 'android') {
+      this.eventListener = DeviceEventEmitter.addListener('TraceEvent', this.handleTraceEvent);
+    } else {
+      this.eventListener = new NativeEventEmitter(NativeModules.UqudoId).addListener(
+        'TraceEvent',
+        this.handleTraceEvent
+      );
+    }
   }
 
   componentWillUnmount() {
@@ -42,9 +49,11 @@ class App extends Component {
         .build();
       const enrollObject = new EnrollmentBuilder()
         .setToken(token)
-        .add(doc)
         .enableFacialRecognition()
+        .add(doc)
+        .setAppearanceMode(AppearanceMode.DARK)
         .build();
+
       const { result } = await this.sdk.enroll(enrollObject);
       alert(`result = ${result}`);
     } catch (err) {
