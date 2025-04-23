@@ -1,4 +1,3 @@
-
 {
   "name": "UqudoSDKReactNativeSample",
   "version": "0.0.1",
@@ -11,9 +10,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "react": "18.2.0",
-    "react-native": "0.72.4",
-    "uqudosdk-react-native": "^3.3.0"
+    "react": "18.3.1",
+    "react-native": "0.75.4",
+    "uqudosdk-react-native": "^3.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

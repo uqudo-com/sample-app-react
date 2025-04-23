@@ -48,6 +48,7 @@ react {
     //
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
     // hermesFlags = ["-O", "-output-source-map"]
+    autolinkLibrariesWithApp()
 }
 
 /**
@@ -68,16 +69,21 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
-android {
-    ndkVersion rootProject.ext.ndkVersion
+/**
+ * Use this property to enable or disable the Hermes JS engine.
+ * If set to false, you will be using JSC instead.
+ */
+def enableHermes = true
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+android {
+    ndkVersion "23.1.7779620"
+    compileSdkVersion 34
 
     namespace "com.uqudosdkreactnativesample"
     defaultConfig {
         applicationId "com.uqudosdkreactnativesample"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 23
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
     }
@@ -112,12 +118,9 @@ dependencies {
         exclude group:'com.squareup.okhttp3', module:'okhttp'
     }
 
-    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
-    if (hermesEnabled.toBoolean()) {
+    if (enableHermes) {
         implementation("com.facebook.react:hermes-android")
     } else {
         implementation jscFlavor
     }
 }
-
-apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
